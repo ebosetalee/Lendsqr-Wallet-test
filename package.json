@@ -1,0 +1,54 @@
+{
+    "name": "lendsqr-wallet-test",
+    "description": "An Api to perform basic wallet transactions.",
+    "version": "1.0.0",
+    "main": "index.js",
+    "type": "module",
+    "dependencies": {
+        "dotenv": "^16.0.0",
+        "express": "^4.17.3",
+        "http-status-codes": "^2.2.0",
+        "joi": "^17.6.0",
+        "knex": "^1.0.4",
+        "mysql": "^2.18.1",
+        "uuidv4": "^6.2.12",
+        "winston": "^3.6.0"
+    },
+    "devDependencies": {
+        "@babel/preset-env": "^7.16.11",
+        "babel-eslint": "^10.1.0",
+        "eslint": "^8.11.0",
+        "eslint-config-prettier": "^8.5.0",
+        "eslint-plugin-prettier": "^4.0.0",
+        "jest": "^27.5.1",
+        "nodemon": "^2.0.15",
+        "pre-commit": "^1.2.2",
+        "prettier": "^2.6.0",
+        "prettier-eslint": "^13.0.0"
+    },
+    "scripts": {
+        "start": "node src/index.js",
+        "dev": "nodemon src/index.js",
+        "test": "jest",
+        "prettier-watch": "onchange \"**/*\" -- prettier --write --ignore-unknown {{changed}}",
+        "prettier": "npx prettier --write .",
+        "lint": "eslint",
+        "lint:fix": "eslint . --ext .js --fix",
+        "precommit-msg": "echo 'Pre-commit checks...' && exit 0"
+    },
+    "pre-commit": [
+        "precommit-msg",
+        "prettier"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ebosetalee/Lendsqr-Wallet-test.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/ebosetalee/Lendsqr-Wallet-test/issues"
+    },
+    "homepage": "https://github.com/ebosetalee/Lendsqr-Wallet-test#readme"
+}
