@@ -53,5 +53,7 @@
         "url": "https://github.com/ebosetalee/Lendsqr-Wallet-test/issues"
     },
     "homepage": "https://github.com/ebosetalee/Lendsqr-Wallet-test#readme",
-    "eslintIgnore": ["error-handler.js"]
+    "eslintIgnore": [
+        "error-handler.js"
+    ]
 }
