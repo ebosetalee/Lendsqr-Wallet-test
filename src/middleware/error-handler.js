@@ -1,33 +1,32 @@
 import { StatusCodes } from "http-status-codes";
 import { logger } from "../utils/logger.js";
-const { INTERNAL_SERVER_ERROR, NOT_FOUND, PRECONDITION_FAILED } = StatusCodes;
+const { INTERNAL_SERVER_ERROR, PRECONDITION_FAILED, BAD_REQUEST } = StatusCodes;
 
-const errorHandler = (err, req, res) => {
+// eslint-disable-line no-unused-vars
+const errorHandler = (err, req, res, next) => {
     logger.error(err);
     let error = {
         statusCode: err.statusCode || INTERNAL_SERVER_ERROR,
         message: err.message || "Something went wrong try again later",
     };
 
-    if (err.name == "ValidationError") {
-        if (typeof err.message == "string") {
-            error.message = err.message.replace(/"/g, "");
+    if (err.name == "ValidationError" || err.code == "ER_BAD_FIELD_ERROR") {
+        if (err.message.match(/ER_BAD_FIELD_ERROR/i)) {
+            error.message = err.sqlMessage;
         } else {
-            error.message = Object.values(err.errors)
-                .map(value => value.message)
-                .join(",");
+            error.message = err.message.replace(/"/g, "");
         }
-
         error.statusCode = PRECONDITION_FAILED;
     }
-    if (err.name == "CastError") {
-        if (err.path.match(/id/i)) {
-            error.message = `No item found with id : ${err.value}`;
-        } else {
-            logger.warn(err.message.match(/Cast/i));
-            error.message = err.message.replace(/"/g, "");
-        }
-        error.statusCode = NOT_FOUND;
+
+    if (err.errno === 1062) {
+        error.message = `${err.sqlMessage}, please choose another value`;
+        error.statusCode = BAD_REQUEST;
+    }
+
+    if (err.name.match(/Token/i)) {
+        error.statusCode = PRECONDITION_FAILED;
+        error.message = err.message;
     }
 
     return res.status(error.statusCode).json({ message: error.message });

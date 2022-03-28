@@ -1,6 +1,7 @@
 //@ts-check
+import knex from "knex";
 
-const config = {
+const db = knex({
     client: "mysql",
     connection: {
         host: process.env.DB_HOST,
@@ -9,6 +10,10 @@ const config = {
         database: process.env.DB,
         insecureAuth: true,
     },
-};
+});
 
-export default config;
+export async function assertConnection(database) {
+    return database.raw("select 1").toQuery();
+}
+
+export default db;
