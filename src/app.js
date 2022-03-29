@@ -4,13 +4,8 @@ import express from "express";
 import errorHandler from "./middleware/error-handler.js";
 import userRoutes from "./routes/user.js";
 import transactionRoutes from "./routes/transactions.js";
-import createTable from "./models/users.js";
-import transactionTable from "./models/transactions.js";
 
 const app = express();
-
-await createTable();
-await transactionTable();
 
 process.on("uncaughtException", err => {
     console.error("UNCAUGHT EXCEPTION! 💥 Shutting down...");

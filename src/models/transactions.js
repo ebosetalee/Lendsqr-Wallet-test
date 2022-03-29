@@ -16,10 +16,15 @@ async function transactionTable() {
                 table.foreign("sender_id", "id").references("users");
                 table.foreign("receiver_id", "id").references("users");
                 table.integer("amount").notNullable();
+                table.timestamps(true, true);
             })
             .then(logger.info("Table created"))
             .catch(logger.error);
     }
+}
+
+export async function dropTTable() {
+    return await db.schema.dropTableIfExists(TABLE_NAME).then(logger.debug("table dropped"));
 }
 
 export default transactionTable;

@@ -14,12 +14,16 @@ async function createTable() {
                 table.string("name");
                 table.string("email").unique().notNullable();
                 table.bigInteger("account_number").unique().notNullable();
-                table.integer("account_balance").defaultTo(0);
+                table.float("account_balance").defaultTo(0);
                 table.timestamps(true, true);
             })
             .then(logger.info("Table created"))
             .catch(logger.error);
     }
+}
+
+export async function dropTable() {
+    return await db.schema.dropTableIfExists(TABLE_NAME).then(logger.debug("table dropped"));
 }
 
 export default createTable;

@@ -33,13 +33,13 @@ export const createUser = asyncHandler(async (req, res) => {
 export const signIn = asyncHandler(async (req, res) => {
     logger.debug("User signin...");
 
-    const user = (await db("users").where("email", req.email).orWhere("account_number", req.account_number))[0];
+    const account = (await db("users").where("email", req.email).orWhere("account_number", req.account_number))[0];
 
-    if (!user) {
+    if (!account) {
         throw new ErrorResponse("Account not registered", NOT_FOUND);
     }
 
-    const token = await generateJwtToken(user);
+    const token = await generateJwtToken(account);
 
-    res.status(OK).json({ message: "Account created successfully", user, token });
+    res.status(OK).json({ message: "Account signed in successfully", account, token });
 });
